@@ -5,6 +5,9 @@
 package AdministradorVentanas;
 
 
+import Alumnos.AgregarAlumnos;
+import Alumnos.DLGBloquearAlumno;
+import Alumnos.DLGDesbloquearAlumno;
 import Reportes.DLGGenerarReporteCarreras;
 import javax.swing.JDialog;
 
@@ -208,10 +211,15 @@ public class FRMAdmin extends javax.swing.JFrame {
 
     private void DesbloqueoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DesbloqueoButtonMouseClicked
         System.out.println("Desbloqueado");
+        DLGDesbloquearAlumno dlgDesbloc = new DLGDesbloquearAlumno(this, true);
+        dlgDesbloc.setLocationRelativeTo(null);
+        dlgDesbloc.setVisible(true);
     }//GEN-LAST:event_DesbloqueoButtonMouseClicked
 
     private void BloqueoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BloqueoButtonMouseClicked
-        System.out.println("Bloqueado");
+        DLGBloquearAlumno dlgBloc = new DLGBloquearAlumno(this, true);
+        dlgBloc.setLocationRelativeTo(null);
+        dlgBloc.setVisible(true);
     }//GEN-LAST:event_BloqueoButtonMouseClicked
 
     private void ReporteCarreraButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReporteCarreraButtonMouseClicked
@@ -224,6 +232,9 @@ public class FRMAdmin extends javax.swing.JFrame {
 
     private void AgregarAlumnoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarAlumnoButtonMouseClicked
         System.out.println("Alumno Agregado");
+        AgregarAlumnos agregarfrm = new AgregarAlumnos(this, true);
+        agregarfrm.setLocationRelativeTo(null);
+        agregarfrm.setVisible(true);
     }//GEN-LAST:event_AgregarAlumnoButtonMouseClicked
 
     private void AñadirLaboratorioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AñadirLaboratorioButtonMouseClicked
