@@ -4,6 +4,10 @@
  */
 package AdministradorVentanas;
 
+
+import Reportes.DLGGenerarReporteCarreras;
+import javax.swing.JDialog;
+
 /**
  *
  * @author joel_
@@ -212,6 +216,10 @@ public class FRMAdmin extends javax.swing.JFrame {
 
     private void ReporteCarreraButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReporteCarreraButtonMouseClicked
         System.out.println("Carrera");
+        DLGGenerarReporteCarreras dlgCarrera = new DLGGenerarReporteCarreras(this, true);
+        dlgCarrera.setLocationRelativeTo(null);
+        dlgCarrera.setVisible(true);
+   
     }//GEN-LAST:event_ReporteCarreraButtonMouseClicked
 
     private void AgregarAlumnoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarAlumnoButtonMouseClicked
