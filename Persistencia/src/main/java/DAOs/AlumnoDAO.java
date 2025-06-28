@@ -21,25 +21,28 @@ import javax.persistence.TypedQuery;
 public class AlumnoDAO implements IAlumnoDAO {
 
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("CISCO");
-    private EntityManager manager;
+    private EntityManager manager= factory.createEntityManager();
 
     public AlumnoDAO() {
     }
 
     public AlumnoDominio registrarAlumno(AlumnoDTO alumno) throws PersistenciaException {
         try {
-            if (!manager.isOpen() || manager == null) {
-                manager = factory.createEntityManager();
-            }
+            
             manager.getTransaction().begin();
             
             manager.persist(alumno.getDominio());
             
             manager.getTransaction().commit();
+            
             return manager.find(AlumnoDominio.class, alumno);
+            
         } catch (Exception e) {
             manager.getTransaction().rollback();
+            manager.close();
             throw new PersistenciaException(e.getMessage());
+        }finally{
+            manager.close();
         }
 
     }

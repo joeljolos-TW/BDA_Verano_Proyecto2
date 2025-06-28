@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -40,6 +41,10 @@ public class ComputadoraDominio implements Serializable {
 
     @Column(name = "Estado", nullable = false)
     private EstadoComputadoras estado;
+    
+    @ManyToOne
+    @JoinColumn(name = "centro_id")
+    private CentroLaboratorioDominio centroLaboratorio;
 
     @ManyToMany
     @JoinTable(name = "computadoras_softwares",

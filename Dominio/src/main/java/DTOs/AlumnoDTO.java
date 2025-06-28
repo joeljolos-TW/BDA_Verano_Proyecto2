@@ -26,7 +26,7 @@ public class AlumnoDTO {
     private EstadoAlumnos estado;
 
     private CarreraDominio carrera;
-    
+
     
     public AlumnoDominio getDominio(){
         return new AlumnoDominio(nombre,

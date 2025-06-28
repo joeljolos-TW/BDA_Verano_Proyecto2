@@ -35,14 +35,14 @@
                           <Component id="ApellidoMaternoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
                           <Component id="CarreraLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="CarreraBox" alignment="0" max="32767" attributes="0"/>
                           <Component id="ContraseñaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPasswordField1" alignment="0" pref="316" max="32767" attributes="0"/>
+                          <Component id="ContraseñaTxt" alignment="0" pref="316" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="AgregarAlumnoButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -75,14 +75,14 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="CarreraLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+              <Component id="CarreraBox" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="ContraseñaLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPasswordField1" min="-2" max="-2" attributes="0"/>
+              <Component id="ContraseñaTxt" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="137" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="AgregarAlumnoButton" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -132,18 +132,14 @@
         <Property name="text" type="java.lang.String" value="Carrera"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JComboBox" name="CarreraBox">
       <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="modeloNombres" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="CarreraDao cDAO = new CarreraDao();&#xa;DefaultComboBoxModel&lt;CarreraDominio&gt; carrerasModel = new DefaultComboBoxModel&lt;CarreraDominio&gt;();&#xa;List&lt;CarreraDominio&gt; carreras = cDAO.obtenerCarreras();&#xa;List&lt;String&gt; nombres = carreras.stream()&#xa;                               .map(CarreraDominio::getNombre)&#xa;                               .collect(Collectors.toList());&#xa;&#xa;DefaultComboBoxModel&lt;String&gt; modeloNombres = new DefaultComboBoxModel&lt;&gt;();&#xa;for (String nombre : nombres) {&#xa;    modeloNombres.addElement(nombre);&#xa;}"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
@@ -152,17 +148,20 @@
         <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+    <Component class="javax.swing.JPasswordField" name="Contrase&#xf1;aTxt">
       <Properties>
         <Property name="text" type="java.lang.String" value="jPasswordField1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="AgregarAlumnoButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/img/AgregarAlumno.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AgregarAlumnoButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>

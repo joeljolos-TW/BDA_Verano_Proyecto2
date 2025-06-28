@@ -4,11 +4,35 @@
  */
 package Alumnos;
 
+import DTOs.AlumnoDTO;
+import Facade.AlumnoFacade;
+import DAOs.CarreraDao;
+import Dominio.CarreraDominio;
+import Enumeradores.EstadoAlumnos;
+import NegocioException.NegocioException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author joel_
  */
 public class AgregarAlumnos extends javax.swing.JDialog {
+
+    private AlumnoFacade alumFcd = new AlumnoFacade();
+    private CarreraDao carrDao = new CarreraDao();
 
     /**
      * Creates new form AgregarAlumnos
@@ -35,10 +59,10 @@ public class AgregarAlumnos extends javax.swing.JDialog {
         ApellidoMaternoLabel = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         CarreraLabel = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        CarreraBox = new javax.swing.JComboBox<>();
         ContraseñaLabel = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
+        ContraseñaTxt = new javax.swing.JPasswordField();
+        AgregarAlumnoButton = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -71,13 +95,29 @@ public class AgregarAlumnos extends javax.swing.JDialog {
 
         CarreraLabel.setText("Carrera");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CarreraDao cDAO = new CarreraDao();
+        DefaultComboBoxModel<CarreraDominio> carrerasModel = new DefaultComboBoxModel<CarreraDominio>();
+        List<CarreraDominio> carreras = cDAO.obtenerCarreras();
+        List<String> nombres = carreras.stream()
+        .map(CarreraDominio::getNombre)
+        .collect(Collectors.toList());
+
+        DefaultComboBoxModel<String> modeloNombres = new DefaultComboBoxModel<>();
+        for (String nombre : nombres) {
+            modeloNombres.addElement(nombre);
+        }
+        CarreraBox.setModel(modeloNombres);
 
         ContraseñaLabel.setText("Contraseña");
 
-        jPasswordField1.setText("jPasswordField1");
+        ContraseñaTxt.setText("jPasswordField1");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/AgregarAlumno.png"))); // NOI18N
+        AgregarAlumnoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/AgregarAlumno.png"))); // NOI18N
+        AgregarAlumnoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AgregarAlumnoButtonMouseClicked(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/CancelarButton.png"))); // NOI18N
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -102,12 +142,12 @@ public class AgregarAlumnos extends javax.swing.JDialog {
                             .addComponent(ApellidoMaternoLabel)
                             .addComponent(jTextField1)
                             .addComponent(CarreraLabel)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CarreraBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ContraseñaLabel)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)))
+                            .addComponent(ContraseñaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jLabel1)
+                        .addComponent(AgregarAlumnoButton)
                         .addGap(26, 26, 26)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
@@ -135,14 +175,14 @@ public class AgregarAlumnos extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CarreraLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CarreraBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ContraseñaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ContraseñaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(AgregarAlumnoButton)
                     .addComponent(jLabel2)))
         );
 
@@ -164,6 +204,40 @@ public class AgregarAlumnos extends javax.swing.JDialog {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void AgregarAlumnoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarAlumnoButtonMouseClicked
+        alumFcd = new AlumnoFacade();
+        AlumnoDTO alumno = new AlumnoDTO();
+        alumno.setNombre(NombreTxt.getText());
+        alumno.setApellidoPaterno(ApellidoPaternoTxt.getText());
+        alumno.setApellidoMaterno(ApellidoPaternoTxt.getText());
+        char[] passwordChars = ContraseñaTxt.getPassword(); // obtiene el arreglo de chars
+        String contraseña = new String(passwordChars);      // convierte a String
+
+        alumno.setContraseña(contraseña);
+        alumno.setEstado(EstadoAlumnos.ESTUDIANDO);
+        alumno.setCarrera(carrDao.buscarPorNombre((String) CarreraBox.getSelectedItem()));
+        try {
+            alumFcd.Registrar(alumno);
+            Map<String, Object> parametros = new HashMap<>();
+
+            parametros.put("nombre", alumno.getNombre());
+            parametros.put("apellidoPaterno", alumno.getApellidoPaterno());
+            parametros.put("apellidoMaterno", alumno.getApellidoMaterno());
+            parametros.put("estado", alumno.getEstado().toString()); // asumiendo Enum
+
+            JasperReport reporte = JasperCompileManager.compileReport(
+                    getClass().getResourceAsStream("/reportes/reporte_alumno.jrxml"));
+
+            JasperPrint print = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());
+            JasperViewer.viewReport(print, false);
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(AgregarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JRException ex) {
+            Logger.getLogger(AgregarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_AgregarAlumnoButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -208,18 +282,18 @@ public class AgregarAlumnos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AgregarAlumnoButton;
     private javax.swing.JLabel ApellidoMaternoLabel;
     private javax.swing.JLabel ApellidoPaternoLabel;
     private javax.swing.JTextField ApellidoPaternoTxt;
+    private javax.swing.JComboBox<String> CarreraBox;
     private javax.swing.JLabel CarreraLabel;
     private javax.swing.JLabel ContraseñaLabel;
+    private javax.swing.JPasswordField ContraseñaTxt;
     private javax.swing.JLabel NombreLabel;
     private javax.swing.JTextField NombreTxt;
     private javax.swing.JLabel TituloLabel;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
