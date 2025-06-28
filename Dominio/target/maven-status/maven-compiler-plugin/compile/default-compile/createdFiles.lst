@@ -1,0 +1,16 @@
+Enumeradores\EstadosComputadora.class
+Entidades\BloqueoDominio.class
+DTOs\ReservaDTO.class
+Entidades\CentroLaboratorioDominio.class
+Entidades\ReservaDominio.class
+DTOs\BloqueoDTO.class
+DTOs\CentroLaboratorioDTO.class
+DTOs\AlumnoDTO.class
+Entidades\AlumnoDominio.class
+Enumeradores\EstadosAlumno.class
+Entidades\UnidadDominio.class
+DTOs\ComputadoraDTO.class
+Entidades\CarreraDominio.class
+DTOs\SoftwareDTO.class
+Entidades\SoftwareDominio.class
+Entidades\ComputadoraDominio.class
